@@ -1,8 +1,10 @@
-import prisma from "@/lib/prisma";
+
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from 'bcrypt'
 import NextAuth from "next-auth/next";
+import prisma from "../../../../lib/prisma";
+import { User } from "@prisma/client";
 
 export const authOptions: AuthOptions={
     providers:[
@@ -12,7 +14,7 @@ export const authOptions: AuthOptions={
                 username:{
                     label:"User Name",
                     type:"text",
-                    placeholder:"Your User name"
+                    placeholder:"Your email"
                 },
                 password:{
                     label:"Password",
@@ -41,6 +43,19 @@ export const authOptions: AuthOptions={
             }
         })
     ]
+    ,
+    callbacks:{
+        async jwt({token,user}){
+            if(user){
+                token.user=user as User
+            }
+            return token
+        },
+        async session({token,session}){
+            session.user=token.user
+            return session
+        }
+    }
 }
 const handler=NextAuth(authOptions)
 
