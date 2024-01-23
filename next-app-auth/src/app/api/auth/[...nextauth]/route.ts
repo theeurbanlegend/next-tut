@@ -10,6 +10,9 @@ export const authOptions: AuthOptions={
     pages:{
         signIn:'/auth/signin'
     },
+    session:{
+        strategy:'jwt'
+    },
     providers:[
         CredentialsProvider({
             name:'Credentials',
@@ -40,6 +43,9 @@ export const authOptions: AuthOptions={
                 const isPassCorrect= await bcrypt.compare(credentials.password, user.password)
                 if(!isPassCorrect){
                     throw new Error("Password Incorrect!")
+                }
+                if(!user.emailVerified){
+                    throw new Error("Please verify your email first!")
                 }
                 const {password, ...userWithoutPass}=user
                 return userWithoutPass

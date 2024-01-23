@@ -2,6 +2,7 @@ import { Image, Link } from '@nextui-org/react'
 import React from 'react'
 import SignupForm from '../../components/SignupForm'
 
+
 const SignupPage = () => {
   return (
     <div className='grid grid-cols-1 md:grid-cols-2 place-items-center items-center'>
