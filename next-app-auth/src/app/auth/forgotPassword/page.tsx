@@ -15,7 +15,7 @@ const formSchema= z.object({
 })
 type InputType=z.infer<typeof formSchema>
 
-const forgotPass = () => {
+const ForgotPass = () => {
     const {register, handleSubmit,reset, formState:{errors, isSubmitting}}=useForm<InputType>({
         resolver:zodResolver(formSchema)
     })
@@ -46,4 +46,4 @@ const forgotPass = () => {
   )
 }
 
-export default forgotPass
+export default ForgotPass

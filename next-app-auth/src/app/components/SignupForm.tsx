@@ -36,7 +36,7 @@ const SignupForm = () => {
   const [passStrength, setpassStrength]=useState(0)
   const toggleVisible=()=>setisVisiblePass(prev=>!prev)
   const saveUser:SubmitHandler<InputType> =async (data)=>{
-    console.log({data})
+    
     const {accepted, confirmPassword, ...user}=data
     try{
       const result=await registerUser(user)
@@ -49,7 +49,7 @@ const SignupForm = () => {
   }
   useEffect(()=>{
     setpassStrength(passwordStrength(watch().password).id)
-  },[watch().password])
+  },[watch])
   return (
     <form onSubmit={handleSubmit(saveUser)} className='grid grid-cols-2 gap-3 p-2 place-self-stretch shadow border rounded-md'>
       <Input errorMessage={errors.firstName?.message} {...register('firstName')} label="First name" startContent={<UserIcon className='w-4 '/>}/>
