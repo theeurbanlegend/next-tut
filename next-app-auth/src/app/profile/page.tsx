@@ -2,10 +2,11 @@ import { getServerSession } from "next-auth"
 
 import { Image } from "@nextui-org/react"
 import { redirect } from "next/navigation"
+import { authOptions } from "../../lib/auth"
 
 
 const ProfilePage =async () => {
-   const session=await getServerSession()
+   const session=await getServerSession(authOptions)
    const user=session?.user
   return (
     <div>
