@@ -15,7 +15,6 @@ export async function registerUser(user: Omit<User,"id"|"emailVerified"|"image">
             },
         }
     )
-    
     const encryptedId=signJWT({
         id:result.id
     })

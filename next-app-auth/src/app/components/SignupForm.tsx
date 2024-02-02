@@ -26,7 +26,8 @@ const formSchema=z.object({
   message:"Passwords dont match!",
   path:["password", "confirmPassword"]
 })
-type InputType=z.infer<typeof formSchema>
+//Deflagged optinal type from InputType
+type InputType = Required<z.infer<typeof formSchema>>;
 
 const SignupForm = () => {
   const {register, handleSubmit, reset,control, formState:{errors},watch}=useForm<InputType>({
@@ -38,6 +39,7 @@ const SignupForm = () => {
   const saveUser:SubmitHandler<InputType> =async (data)=>{
     
     const {accepted, confirmPassword, ...user}=data
+    
     try{
       const result=await registerUser(user)
       toast.success("User Registered Successfully!")
@@ -52,24 +54,43 @@ const SignupForm = () => {
   },[watch])
   return (
     <form onSubmit={handleSubmit(saveUser)} className='grid grid-cols-2 gap-3 p-2 place-self-stretch shadow border rounded-md'>
-      <Input errorMessage={errors.firstName?.message} {...register('firstName')} label="First name" startContent={<UserIcon className='w-4 '/>}/>
-      <Input errorMessage={errors.lastName?.message} {...register("lastName")}  label="Last name" startContent={<UserIcon className='w-4 '/>}/>
+      <Input
+       errorMessage={errors.firstName?.message} 
+       {...register('firstName')}
+        label="First name" 
+        startContent={<UserIcon className='w-4 '/>}/>
+      <Input 
+      errorMessage={errors.lastName?.message}
+       {...register("lastName")}
+         label="Last name"
+          startContent={<UserIcon className='w-4 '/>}/>
       <Input 
       errorMessage={errors.email?.message}
-      {...register('email')}  className='col-span-2' label="Email" type='email' startContent={<EnvelopeIcon  className='w-4 '/>}/>
+      {...register('email')}
+        className='col-span-2' 
+        label="Email" 
+        type='email'
+         startContent={<EnvelopeIcon  className='w-4 '/>}/>
       <Input 
       errorMessage={errors.phone?.message}
-      {...register('phone')}  className='col-span-2' type='tel' label="Phone" startContent={<PhoneIcon className='w-4  '/>}/>
+      {...register('phone')} 
+       className='col-span-2' type='tel' label="Phone" 
+       startContent={<PhoneIcon className='w-4  '/>}/>
       <Input
       errorMessage={errors.password?.message}
-       {...register('password')}  className='col-span-2' type={visiblePass?'text':'password'} label="Password" startContent={<KeyIcon className='w-4 ' 
+       {...register('password')}  className='col-span-2' type={visiblePass?'text':'password'} label="Password"
+        startContent={<KeyIcon className='w-4' 
       />}
       endContent={
         visiblePass?<EyeIcon className='w-4 cursor-pointer' onClick={toggleVisible}/>:<EyeSlashIcon className='w-4 cursor-pointer' onClick={toggleVisible}/>
       }
       />
       <PassStrength passStrength={passStrength}/>
-      <Input errorMessage={errors.confirmPassword?.message} {...register('confirmPassword')}  className='col-span-2' type={visiblePass?'text':'password'} label="Confirm Password" startContent={<KeyIcon className='w-4  '/>}/>
+      <Input
+       errorMessage={errors.confirmPassword?.message} {...register('confirmPassword')}
+         className='col-span-2'
+          type={visiblePass?'text':'password'} label="Confirm Password"
+           startContent={<KeyIcon className='w-4  '/>}/>
       <Controller control={control} name='accepted' render={({field})=>(
         <Checkbox onChange={field.onChange} onBlur={field.onBlur}>I accept the <Link href='#'>Terms</Link></Checkbox>
       )}/>
